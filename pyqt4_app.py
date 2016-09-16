@@ -77,13 +77,18 @@ class Ventana(QtGui.QMainWindow):
 		fecha_futura = date(actual,9,15)
 		#Si ya es septiebre y a partir del 15, se tendrán que calcular los días restantes para el 15 de septiembre del siguiente año.
 		if mes >= 9 and dia >= 15:
-			fecha_futura = date(actual+1,9,15) #Se la suma una unidad al año de la fecha del futuro.
+			actual += 1
+			fecha_futura = date(actual,9,15) #Se la suma una unidad al año de la fecha del futuro.
 		regreso = (fecha_futura - fecha_actual).days
 		#Estableciendo el color y fondo del botón, el nuevo texto, las dimensiones y la posición.
 		self.btn_aniv.setStyleSheet('QPushButton {background-color: #336600; color: red;}')
-		self.btn_aniv.setText("¡Faltan " + str(regreso) + " días para el próximo 15 de septiembre!")
+		if regreso == 365: 
+			self.btn_aniv.setText("¡¡¡HOY ES EL GRITO!!!") #Anunciando cuánto falta para el 15 de septiembre más cercano (si estamos a 15, faltan 365 días para el del siguiente y eso significa que hoy es 15).
+			self.btn_aniv.move(650, 300)
+		else:
+			self.btn_aniv.setText("¡Faltan " + str(regreso) + " días para el 15 de septiembre de " + str(actual)) #Anunciando cuánto falta para el 15 de septiembre del próximo año.
+			self.btn_aniv.move(250, 300)
 		self.btn_aniv.resize(self.btn_aniv.sizeHint())
-		self.btn_aniv.move(250, 300)
 
 	def makebtn_salir(self):
 		#Se define el texto del botón y se muestra.
